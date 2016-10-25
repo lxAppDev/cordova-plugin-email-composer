@@ -514,11 +514,11 @@ public class EmailComposerImpl {
         AccountManager am  = AccountManager.get(ctx);
 
         try {
-            for (Account account : am.getAccounts()) {
-                if (account.type.endsWith("mail")) {
-                    return true;
-                }
-            }
+            // since the account type is no longer a valid source of information whether or not an email 
+            // account was configured or not, we simply check for accounts and that's it.
+            // account manager no longer returns account types that end with "mail". They are "com.google" or
+            // "com.google.android.gm.legacyimap" or alike.
+            return am.getAccounts().length > 0; 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Missing GET_ACCOUNTS permission.");
             return true;
